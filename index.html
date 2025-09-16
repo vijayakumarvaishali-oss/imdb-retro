@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinemaVault85 - The Ultimate Retro Movie Database</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Courier+Prime:wght@400;700&family=Bebas+Neue&family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-gold: #FFD700;
+            --retro-orange: #FF6B35;
+            --deep-purple: #2D1B69;
+            --electric-blue: #00D9FF;
+            --vintage-red: #DC143C;
+            --dark-bg: #0A0A0A;
+            --paper-white: #FFF8DC;
+            --amber: #FFBF00;
+            --copper: #B87333;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--deep-purple) 50%, var(--dark-bg) 100%);
+            background-attachment: fixed;
+            color: var(--paper-white);
+            cursor: none;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Scanlines Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 217, 255, 0.03) 2px,
+                rgba(0, 217, 255, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Custom Golden Film Reel Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-trail {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--neon-gold), var(--retro-orange));
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            animation: trail-sparkle 2s ease-out forwards;
+        }
+
+        .cursor-trail::before {
+            content: '🎞️';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            font-size: 20px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes trail-sparkle {
+            0% { 
+                opacity: 1; 
+                transform: scale(1); 
+                box-shadow: 0 0 20px var(--neon-gold);
+            }
+            100% { 
+                opacity: 0; 
+                transform: scale(0.2); 
+                box-shadow: 0 0 5px var(--retro-orange);
+            }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Glowing Header */
+        .retro-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(220, 20, 60, 0.1));
+            border-bottom: 4px solid var(--neon-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .retro-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            animation: shine 3s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .site-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 4.5em;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-gold), var(--electric-blue), var(--retro-orange), var(--vintage-red));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 4s ease-in-out infinite, glow-pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)); }
+            50% { filter: brightness(1.2) drop-shadow(0 0 40px rgba(255, 215, 0, 0.6)); }
+        }
+
+        .site-subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2em;
+            color: var(--amber);
+            text-shadow: 0 0 10px var(--amber);
+            margin-bottom: 10px;
+            animation: neon-flicker 3s ease-in-out infinite;
+        }
+
+        @keyframes neon-flicker {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--amber); }
+            50% { opacity: 0.8; text-shadow: 0 0 20px var(--amber), 0 0 30px var(--retro-orange); }
+        }
+
+        .tagline {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4em;
+            color: var(--electric-blue);
+            letter-spacing: 2px;
+            animation: typewriter 4s steps(40, end) 1s both;
+            border-right: 3px solid var(--neon-gold);
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Futuristic Search Bar */
+        .search-zone {
+            padding: 30px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid var(--electric-blue);
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 20px 70px 20px 30px;
+            font-size: 1.3em;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(45, 27, 105, 0.3));
+            border: 3px solid var(--neon-gold);
+            border-radius: 50px;
+            color: var(--paper-white);
+            font-family: 'Orbitron', monospace;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 217, 255, 0.1),
+                0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .search-input:focus {
+            border-color: var(--electric-blue);
+            box-shadow: 
+                inset 0 0 20px rgba(0, 217, 255, 0.2),
+                0 0 30px rgba(0, 217, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+        .search-input::placeholder {
+            color: var(--amber);
+            opacity: 0.7;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            bottom: 10px;
+            background: linear-gradient(45deg, var(--vintage-red), var(--retro-orange));
+            border: none;
+            border-radius: 25px;
+            padding: 0 25px;
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(220, 20, 60, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(220, 20, 60, 0.6);
+        }
+
+        /* Retro TV Control Panel */
+        .tv-control-panel {
+            background: linear-gradient(135deg, var(--copper), #8B4513);
+            margin: 30px;
+            padding: 25px;
+            border-radius: 20px;
+            border: 5px ridge var(--amber);
+            box-shadow: 
+                inset 0 0 50px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(255, 191, 0, 0.2);
+            position: relative;
+        }
+
+        .tv-control-panel::before {
+            content: '📺 CHANNEL SELECTOR 📻';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-bg);
+            color: var(--neon-gold);
+            padding: 8px 20px;
+            border-radius: 15px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8em;
+            border: 2px solid var(--amber);
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .channel-btn {
+            background: linear-gradient(145deg, #2C1810, #1A1A1A);
+            border: 3px solid var(--neon-gold);
+            color: var(--paper-white);
+            padding: 18px 20px;
+            border-radius: 15px;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .channel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .channel-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--electric-blue);
+            box-shadow: 0 10px 25px rgba(0, 217, 255, 0.3);
+            color: var(--electric-blue);
+        }
+
+        .channel-btn:hover::before {
+            left: 100%;
+        }
+
+        .channel-btn.active {
+            background: linear-gradient(145deg, var(--vintage-red), var(--retro-orange));
+            color: white;
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Main Content Layout */
+        .cinema-layout {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 40px;
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Movie Showcase */
+        .movie-showcase {
+            border-right: 3px solid var(--neon-gold);
+            padding-right: 40px;
+        }
+
+        .showcase-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3em;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, var(--neon-gold), var(--electric-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+
+        .showcase-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--vintage-red), var(--retro-orange), var(--neon-gold));
+            border-radius: 2px;
+            animation: pulse-line 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-line {
+            0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleX(1); }
+            50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
+        }
+
+        /* Featured Movie Spotlight */
+        .featured-spotlight {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(220, 20, 60, 0.1));
+            border: 3px solid var(--neon-gold);
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-spotlight::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: spotlight-rotate 10s linear infinite;
+        }
+
+        @keyframes spotlight-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .spotlight-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .spotlight-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5em;
+            color: var(--neon-gold);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .spotlight-description {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: var(--paper-white);
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--vintage-red), var(--retro-orange));
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 25px rgba(220, 20, 60, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(220, 20, 60, 0.5);
+        }
+
+        /* Movie Grid */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .movie-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(45, 27, 105, 0.3));
+            border: 2px solid var(--amber);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .movie-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--neon-gold), var(--electric-blue));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+        }
+
+        .movie-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: var(--electric-blue);
+            box-shadow: 
+                0 25px 50px rgba(0, 217, 255, 0.3),
+                0 0 50px rgba(255, 215, 0, 0.2);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--deep-purple), var(--dark-bg));
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .movie-poster::after {
+            content: '🎬';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5em;
+            opacity: 0.7;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .movie-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--neon-gold);
+            margin-bottom: 12px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .movie-info {
+            color: var(--electric-blue);
+            font-size: 1em;
+            margin-bottom: 15px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .movie-rating {
+            background: linear-gradient(45deg, var(--vintage-red), var(--retro-orange));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Retro Sidebar */
+        .retro-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Vintage Radio */
+        .vintage-radio {
+            background: radial-gradient(ellipse at center, var(--copper), #654321);
+            border: 8px ridge var(--amber);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: 
+                inset 0 0 50px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(184, 115, 51, 0.3);
+        }
+
+        .radio-title {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--neon-gold);
+            font-size: 1em;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px var(--neon-gold);
+        }
+
+        .radio-display {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, #0A0A0A, #1A1A1A);
+            border: 12px solid #2C1810;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .radio-display:hover {
+            transform: rotate(20deg);
+        }
+
+        .frequency-needle {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            width: 8px;
+            height: 90px;
+            background: linear-gradient(to bottom, var(--vintage-red), var(--retro-orange));
+            transform-origin: bottom center;
+            border-radius: 4px;
+            animation: frequency-sweep 8s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--vintage-red);
+        }
+
+        @keyframes frequency-sweep {
+            0%, 100% { transform: translateX(-50%) rotate(-70deg); }
+            50% { transform: translateX(-50%) rotate(70deg); }
+        }
+
+        .frequency-display {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-bg);
+            color: var(--neon-gold);
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            border: 2px solid var(--amber);
+            animation: frequency-change 4s ease-in-out infinite;
+        }
+
+        @keyframes frequency-change {
+            0% { content: '101.5 FM'; }
+            25% { content: '95.7 FM'; }
+            50% { content: '107.3 FM'; }
+            75% { content: '98.1 FM'; }
+            100% { content: '101.5 FM'; }
+        }
+
+        .station-labels {
+            display: flex;
+            justify-content: space-between;
+            color: var(--amber);
+            font-family: 'Courier Prime', monospace;
+            margin-top: 20px;
+        }
+
+        /* Cinematic Alert System */
+        .alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cinematic-alert {
+            background: linear-gradient(135deg, var(--dark-bg), var(--deep-purple));
+            border: 4px solid var(--neon-gold);
+            border-radius: 20px;
+            width: 600px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 100px rgba(255, 215, 0, 0.3),
+                inset 0 0 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.5) rotateY(90deg);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .cinematic-alert.show {
+            transform: scale(1) rotateY(0deg);
+            opacity: 1;
+        }
+
+        .alert-header {
+            background: linear-gradient(45deg, var(--vintage-red), var(--retro-orange));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 1.3em;
+            position: relative;
+        }
+
+        .alert-header::before {
+            content: '🎬';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+        }
+
+        .alert-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .alert-message {
+            color: var(--paper-white);
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .alert-button {
+            background: linear-gradient(45deg, var(--neon-gold), var(--amber));
+            color: var(--dark-bg);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .alert-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Epic Footer */
+        .epic-footer {
+            background: linear-gradient(135deg, var(--dark-bg), var(--deep-purple));
+            color: var(--paper-white);
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 4px solid var(--neon-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .marquee-zone {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 15px 0;
+            overflow: hidden;
+            border-top: 2px solid var(--amber);
+            border-bottom: 2px solid var(--amber);
+        }
+
+        .marquee-content {
+            white-space: nowrap;
+            animation: marquee-scroll 40s linear infinite;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3em;
+            color: var(--neon-gold);
+            font-weight: bold;
+        }
+
+        @keyframes marquee-scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-info {
+            font-family: 'Courier Prime', monospace;
+            line-height: 1.8;
+            color: var(--amber);
+        }
+
+        .footer-info h3 {
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-gold);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px var(--neon-gold);
+        }
+
+        .qr-zone {
+            width: 120px;
+            height: 120px;
+            background: var(--paper-white);
+            border: 4px solid var(--neon-gold);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: var(--dark-bg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .qr-zone:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 30px var(--neon-gold);
+        }
+
+        .qr-zone::before {
+            content: 'SCAN ME';
+            position: absolute;
+            bottom: -30px;
+            font-size: 0.3em;
+            font-family: 'Press Start 2P', cursive;
+            color: var(--electric-blue);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .cinema-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .movie-showcase {
+                border-right: none;
+                border-bottom: 3px solid var(--neon-gold);
+                padding-bottom: 30px;
+            }
+            
+            .site-title {
+                font-size: 3.5em;
+            }
+
+            .movie-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .channel-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 12px;
+            }
+
+            .footer-main {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-title {
+                font-size: 2.8em;
+            }
+
+            .cinema-layout {
+                padding: 20px;
+            }
+
+            .movie-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+
+            .cinematic-alert {
+                width: 90%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Film Reel Cursor -->
+    <div class="custom-cursor" id="customCursor">🎞️</div>
+
+    <!-- Glowing Header -->
+    <header class="retro-header">
+        <h1 class="site-title">CINEMAVAULT85</h1>
+        <p class="site-subtitle">RETRO MOVIE DATABASE</p>
+        <p class="tagline">Your Gateway to Cinema History • Est. 1985</p>
+    </header>
+
+    <!-- Futuristic Search Zone -->
+    <section class="search-zone">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search movies, actors, directors from cinema history..." id="searchInput">
+            <button class="search-btn" onclick="performSearch()">🔍</button>
+        </div>
+    </section>
+
+    <!-- TV Control Panel -->
+    <nav class="tv-control-panel">
+        <div class="channel-grid">
+            <button class="channel-btn active" onclick="switchChannel(this, 'blockbusters')">🌟 BLOCKBUSTERS</button>
+            <button class="channel-btn" onclick="switchChannel(this, 'classics')">🎭 GOLDEN CLASSICS</button>
+            <button class="channel-btn" onclick="switchChannel(this, 'action')">💥 ACTION ZONE</button>
+            <button class="channel-btn" onclick="switchChannel(this, 'romance')">💕 ROMANCE</button>
+            <button class="channel-btn" onclick="switchChannel(this, 'horror')">👻 HORROR VAULT</button>
+            <button class="channel-btn" onclick="switchChannel(this, 'scifi')">🚀 SCI-FI GALAXY</button>
+        </div>
+    </nav>
+
+    <!-- Main Cinema Layout -->
+    <div class="cinema-layout">
+        <!-- Movie Showcase -->
+        <main class="movie-showcase">
+            <!-- Featured Spotlight -->
+            <div class="featured-spotlight">
+                <div class="spotlight-content">
+                    <h2 class="spotlight-title">🎬 TONIGHT'S FEATURE PRESENTATION</h2>
+                    <p class="spotlight-description">
+                        Experience the magic of cinema with our handpicked selection of legendary films. 
+                        From Hollywood's golden age to modern masterpieces, every movie tells an unforgettable story.
+                        Step into our vault and discover why these films became immortal classics.
+                    </p>
+                    <button class="cta-button" onclick="showAlert('Feature Presentation', '🌟 Welcome to CinemaVault85! Dive into our exclusive collection featuring timeless classics like Casablanca, The Godfather, Citizen Kane, and many more legendary films that shaped cinema history. Your cinematic journey starts here!')">
+                        ENTER THE VAULT
+                    </button>
+                </div>
+            </div>
+            
+            <h2 class="showcase-title" id="showcaseTitle">BLOCKBUSTER COLLECTION</h2>
+            <div class="movie-grid" id="movieGrid">
+                <!-- Movies populated by JavaScript -->
+            </div>
+        </main>
+
+        <!-- Retro Sidebar -->
+        <aside class="retro-sidebar">
+            <!-- Vintage Radio -->
+            <div class="vintage-radio">
+                <h3 class="radio-title">📻 CINEMA SOUNDTRACKS FM</h3>
+                <div class="radio-display" onclick="showAlert('Radio Station', '🎵 Now Playing: Classic Movie Soundtracks! Tune in to hear iconic themes from Jaws, Star Wars, The Godfather, Indiana Jones, and more legendary film scores that defined cinema history. Broadcasting since 1985!')">
+                    <div class="frequency-needle"></div>
+                    <div class="frequency-display">101.5 FM</div>
+                </div>
+                <div class="station-labels">
+                    <span>CLASSICS</span>
+                    <span>MODERN</span>
+                    <span>EPIC</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Cinematic Alert System -->
+    <div class="alert-overlay" id="alertOverlay">
+        <div class="cinematic-alert" id="cinematicAlert">
+            <div class="alert-header" id="alertTitle">
+                CINEMA ALERT SYSTEM
+            </div>
+            <div class="alert-body">
+                <div class="alert-message" id="alertMessage">
+                    Welcome to the ultimate cinema experience!
+                </div>
+                <div class="alert-actions">
+                    <button class="alert-button" onclick="closeAlert()">UNDERSTOOD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Epic Footer -->
+    <footer class="epic-footer">
+        <div class="marquee-zone">
+            <div class="marquee-content">
+                🎬 NOW SHOWING: The Shawshank Redemption • The Godfather • Pulp Fiction • Casablanca • Goodfellas • Citizen Kane • Vertigo • Singin' in the Rain • Gone with the Wind • Lawrence of Arabia 🌟 EXPERIENCE CINEMA HISTORY AT CINEMAVAULT85 🎭
+            </div>
+        </div>
+        <div class="footer-main">
+            <div class="footer-info">
+                <h3>CINEMAVAULT85</h3>
+                <p><strong>The Ultimate Retro Movie Database</strong></p>
+                <p>📍 Hollywood Boulevard, Cinema City</p>
+                <p>📞 1-800-CINEMA-85 (1-800-246-3628)</p>
+                <p>📧 classics@cinemavault85.com</p>
+                <p>🌐 www.cinemavault85.com</p>
+                <p><em>"Preserving Cinema History Since 1985"</em></p>
+            </div>
+            <div class="qr-zone" onclick="showAlert('Mobile App', '📱 Download CinemaVault85 Mobile! Access our complete movie database on the go with exclusive behind-the-scenes content, rare footage, and personalized recommendations. Available on iOS and Android!')">
+                📱
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Complete Movie Database
+        const movieDatabase = {
+            blockbusters: [
+                { title: "The Shawshank Redemption", year: "1994", genre: "Drama", rating: "9.3", icon: "🏛️" },
+                { title: "The Godfather", year: "1972", genre: "Crime", rating: "9.2", icon: "👑" },
+                { title: "The Dark Knight", year: "2008", genre: "Action", rating: "9.0", icon: "🦇" },
+                { title: "Pulp Fiction", year: "1994", genre: "Crime", rating: "8.9", icon: "🔫" },
+                { title: "Forrest Gump", year: "1994", genre: "Drama", rating: "8.8", icon: "🏃" },
+                { title: "Inception", year: "2010", genre: "Sci-Fi", rating: "8.7", icon: "🌀" },
+                { title: "The Matrix", year: "1999", genre: "Sci-Fi", rating: "8.7", icon: "💊" },
+                { title: "Goodfellas", year: "1990", genre: "Crime", rating: "8.7", icon: "🕴️" }
+            ],
+            classics: [
+                { title: "Casablanca", year: "1942", genre: "Romance", rating: "8.5", icon: "✈️" },
+                { title: "Citizen Kane", year: "1941", genre: "Drama", rating: "8.3", icon: "📰" },
+                { title: "Vertigo", year: "1958", genre: "Thriller", rating: "8.3", icon: "😵‍💫" },
+                { title: "Singin' in the Rain", year: "1952", genre: "Musical", rating: "8.3", icon: "☔" },
+                { title: "Gone with the Wind", year: "1939", genre: "Romance", rating: "8.1", icon: "🌪️" },
+                { title: "Lawrence of Arabia", year: "1962", genre: "Adventure", rating: "8.3", icon: "🐪" },
+                { title: "The Wizard of Oz", year: "1939", genre: "Fantasy", rating: "8.0", icon: "🌈" },
+                { title: "Sunset Boulevard", year: "1950", genre: "Drama", rating: "8.4", icon: "🌅" }
+            ],
+            action: [
+                { title: "Die Hard", year: "1988", genre: "Action", rating: "8.2", icon: "💥" },
+                { title: "Terminator 2", year: "1991", genre: "Action", rating: "8.5", icon: "🤖" },
+                { title: "Raiders of the Lost Ark", year: "1981", genre: "Adventure", rating: "8.4", icon: "🏺" },
+                { title: "Mad Max: Fury Road", year: "2015", genre: "Action", rating: "8.1", icon: "🏎️" },
+                { title: "Seven Samurai", year: "1954", genre: "Action", rating: "9.0", icon: "⚔️" },
+                { title: "Heat", year: "1995", genre: "Crime", rating: "8.2", icon: "🔥" },
+                { title: "Aliens", year: "1986", genre: "Action", rating: "8.3", icon: "👽" },
+                { title: "The Wild Bunch", year: "1969", genre: "Western", rating: "7.9", icon: "🤠" }
+            ],
+            romance: [
+                { title: "Casablanca", year: "1942", genre: "Romance", rating: "8.5", icon: "💕" },
+                { title: "Roman Holiday", year: "1953", genre: "Romance", rating: "8.0", icon: "🏛️" },
+                { title: "Titanic", year: "1997", genre: "Romance", rating: "7.8", icon: "🚢" },
+                { title: "The Princess Bride", year: "1987", genre: "Adventure", rating: "8.0", icon: "⚔️" },
+                { title: "When Harry Met Sally", year: "1989", genre: "Romance", rating: "7.6", icon: "🥪" },
+                { title: "Sleepless in Seattle", year: "1993", genre: "Romance", rating: "6.8", icon: "🏢" },
+                { title: "Breakfast at Tiffany's", year: "1961", genre: "Romance", rating: "7.6", icon: "💎" },
+                { title: "An Affair to Remember", year: "1957", genre: "Romance", rating: "7.5", icon: "🗽" }
+            ],
+            horror: [
+                { title: "The Exorcist", year: "1973", genre: "Horror", rating: "8.0", icon: "😈" },
+                { title: "Psycho", year: "1960", genre: "Thriller", rating: "8.5", icon: "🔪" },
+                { title: "The Shining", year: "1980", genre: "Horror", rating: "8.4", icon: "🪓" },
+                { title: "Halloween", year: "1978", genre: "Horror", rating: "7.7", icon: "🎃" },
+                { title: "Alien", year: "1979", genre: "Horror", rating: "8.4", icon: "👾" },
+                { title: "Rosemary's Baby", year: "1968", genre: "Horror", rating: "8.0", icon: "👶" },
+                { title: "The Texas Chain Saw Massacre", year: "1974", genre: "Horror", rating: "7.4", icon: "⛓️" },
+                { title: "Jaws", year: "1975", genre: "Thriller", rating: "8.0", icon: "🦈" }
+            ],
+            scifi: [
+                { title: "2001: A Space Odyssey", year: "1968", genre: "Sci-Fi", rating: "8.3", icon: "🚀" },
+                { title: "Blade Runner", year: "1982", genre: "Sci-Fi", rating: "8.1", icon: "🏙️" },
+                { title: "Star Wars", year: "1977", genre: "Sci-Fi", rating: "8.6", icon: "⭐" },
+                { title: "E.T.", year: "1982", genre: "Sci-Fi", rating: "7.8", icon: "👽" },
+                { title: "Back to the Future", year: "1985", genre: "Sci-Fi", rating: "8.5", icon: "⏰" },
+                { title: "The Terminator", year: "1984", genre: "Sci-Fi", rating: "8.0", icon: "🤖" },
+                { title: "Close Encounters", year: "1977", genre: "Sci-Fi", rating: "7.6", icon: "🛸" },
+                { title: "Metropolis", year: "1927", genre: "Sci-Fi", rating: "8.3", icon: "🏭" }
+            ]
+        };
+
+        // Golden Film Reel Cursor Trail
+        let mouseX = 0, mouseY = 0;
+        const customCursor = document.getElementById('customCursor');
+
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            customCursor.style.left = mouseX - 15 + 'px';
+            customCursor.style.top = mouseY - 15 + 'px';
+            
+            // Create trail effect
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = mouseX - 10 + 'px';
+            trail.style.top = mouseY - 10 + 'px';
+            document.body.appendChild(trail);
+            
+            setTimeout(() => {
+                if (trail.parentNode) {
+                    trail.parentNode.removeChild(trail);
+                }
+            }, 2000);
+        });
+
+        // Channel Switching Function
+        function switchChannel(button, category) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.channel-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            // Update showcase
+            loadMovies(category);
+        }
+
+        // Load Movies Function
+        function loadMovies(category) {
+            const movies = movieDatabase[category] || movieDatabase.blockbusters;
+            const movieGrid = document.getElementById('movieGrid');
+            const showcaseTitle = document.getElementById('showcaseTitle');
+            
+            const categoryTitles = {
+                blockbusters: 'BLOCKBUSTER COLLECTION',
+                classics: 'GOLDEN CLASSICS VAULT',
+                action: 'ACTION ZONE ARCHIVE',
+                romance: 'ROMANCE CINEMA LIBRARY',
+                horror: 'HORROR VAULT COLLECTION',
+                scifi: 'SCI-FI GALAXY ARCHIVE'
+            };
+            
+            showcaseTitle.textContent = categoryTitles[category] || 'BLOCKBUSTER COLLECTION';
+            movieGrid.innerHTML = '';
+            
+            movies.forEach((movie, index) => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+                movieCard.onclick = () => showMovieAlert(movie);
+                
+                movieCard.innerHTML = `
+                    <div class="movie-poster">
+                        <div style="font-size: 5em;">${movie.icon}</div>
+                    </div>
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-info">${movie.

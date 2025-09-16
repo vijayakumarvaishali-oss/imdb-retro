@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaVault85 - Retro Movie Spotlight Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Courier+Prime:wght@400;700&family=Bebas+Neue&family=Press+Start+2P&family=Iceland&family=Audiowide&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+    /* ----------------- ENHANCED VARIABLES ----------------- */
+    :root {
+      --neon-gold: #FFD700;
+      --retro-orange: #FF6B35;
+      --deep-purple: #2D1B69;
+      --electric-blue: #00D9FF;
+      --vintage-red: #DC143C;
+      --dark-bg: #0A0A0A;
+      --paper-white: #FFF8DC;
+      --amber: #FFBF00;
+      --copper: #B87333;
+      --success-green: #00FF41;
+      --neon-pink: #FF1493;
+      --cyber-mint: #00FFAA;
+      --matrix-green: #00FF00;
+      --terminal-green: #39FF14;
+      --hologram-blue: #4CC9F0;
+      --laser-red: #F72585;
+      --quantum-purple: #7209B7;
+      --chrome-silver: #C0C0C0;
+      --neon-orange: #FF4500;
+      --cyber-yellow: #FFFF00;
+      --plasma-pink: #FF69B4;
+    }
+
+    /* ----------------- GLOBAL FOUNDATION ----------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rajdhani', monospace;
+      background: 
+        radial-gradient(circle at 20% 80%, var(--quantum-purple) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--laser-red) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, var(--hologram-blue) 0%, transparent 50%),
+        conic-gradient(from 180deg at 50% 50%, var(--dark-bg) 0deg, #1a0a2e 60deg, var(--dark-bg) 120deg, #16213e 180deg, var(--dark-bg) 240deg, #2D1B69 300deg, var(--dark-bg) 360deg);
+      background-attachment: fixed;
+      color: var(--paper-white);
+      cursor: none;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ----------------- ENHANCED SCANLINES & MATRIX EFFECT ----------------- */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 217, 255, 0.03) 2px, rgba(0, 217, 255, 0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255, 20, 147, 0.02) 80px, rgba(255, 20, 147, 0.02) 81px),
+        radial-gradient(ellipse at center, transparent 40%, rgba(0, 255, 65, 0.01) 70%);
+      pointer-events: none;
+      z-index: 1000;
+      animation: matrix-scan 0.1s linear infinite;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: 
+        linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.01) 50%, transparent 100%);
+      pointer-events: none;
+      z-index: 999;
+      animation: screen-flicker 5s ease-in-out infinite;
+    }
+
+    @keyframes matrix-scan {
+      0% { transform: translateY(0px); opacity: 1; }
+      100% { transform: translateY(4px); opacity: 0.8; }
+    }
+
+    @keyframes screen-flicker {
+      0%, 98% { opacity: 1; }
+      99% { opacity: 0.95; }
+      100% { opacity: 1; }
+    }
+
+    /* ----------------- NEXT-LEVEL HOLOGRAPHIC CURSOR ----------------- */
+    .custom-cursor {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 32px;
+      animation: cursor-hyperglow 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 30px var(--hologram-blue)) drop-shadow(0 0 50px var(--neon-gold));
+      transition: all 0.08s ease;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes cursor-hyperglow {
+      0%, 100% { 
+        filter: drop-shadow(0 0 30px var(--hologram-blue)) drop-shadow(0 0 50px var(--neon-gold)) drop-shadow(0 0 70px var(--electric-blue));
+        transform: rotate(0deg) scale(1);
+      }
+      25% { 
+        filter: drop-shadow(0 0 40px var(--neon-pink)) drop-shadow(0 0 60px var(--laser-red)) drop-shadow(0 0 80px var(--plasma-pink));
+        transform: rotate(90deg) scale(1.15);
+      }
+      50% { 
+        filter: drop-shadow(0 0 45px var(--terminal-green)) drop-shadow(0 0 65px var(--success-green)) drop-shadow(0 0 85px var(--cyber-mint));
+        transform: rotate(180deg) scale(0.95);
+      }
+      75% { 
+        filter: drop-shadow(0 0 35px var(--cyber-yellow)) drop-shadow(0 0 55px var(--amber)) drop-shadow(0 0 75px var(--neon-orange));
+        transform: rotate(270deg) scale(1.05);
+      }
+    }
+
+    /* ----------------- ENHANCED CURSOR TRAILS ----------------- */
+    .cursor-trail {
+      position: fixed;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      mix-blend-mode: screen;
+      animation: trail-hyperfade 1s ease-out forwards;
+    }
+
+    @keyframes trail-hyperfade {
+      0% {
+        opacity: 1;
+        transform: scale(1.2) rotate(0deg);
+        box-shadow: 0 0 40px currentColor, 0 0 80px currentColor, 0 0 120px currentColor;
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(0.8) rotate(180deg);
+        box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.1) rotate(360deg);
+        box-shadow: 0 0 10px currentColor;
+      }
+    }
+
+    /* ----------------- ULTIMATE DASHBOARD HEADER ----------------- */
+    .dashboard-header {
+      background: 
+        linear-gradient(135deg, rgba(0,0,0,0.98) 0%, rgba(45,27,105,0.9) 30%, rgba(114,9,183,0.85) 60%, rgba(0,0,0,0.95) 100%), 
+        repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255,215,0,0.03) 15px, rgba(255,215,0,0.03) 30px),
+        repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(76,201,240,0.02) 20px, rgba(76,201,240,0.02) 40px);
+      padding: 35px 0;
+      border-bottom: 6px solid;
+      border-image: linear-gradient(90deg, var(--laser-red), var(--neon-gold), var(--hologram-blue), var(--terminal-green)) 1;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      backdrop-filter: blur(40px);
+      box-shadow: 
+        0 15px 60px rgba(255,215,0,0.3), 
+        0 0 150px rgba(76, 201, 240, 0.2),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    .header-container {
+      max-width: 2000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: 0 50px;
+      gap: 50px;
+    }
+
+    .dashboard-brand {
+      font-family: 'Audiowide', monospace;
+      font-size: 3.2em;
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--neon-gold), var(--hologram-blue), var(--neon-pink), var(--terminal-green), var(--laser-red), var(--cyber-yellow));
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: brand-hypernova 6s ease-in-out infinite;
+      text-decoration: none;
+      position: relative;
+      text-shadow: 0 0 50px rgba(255,215,0,0.5);
+    }
+
+    .dashboard-brand::before {
+      content: 'CinemaVault85';
+      position: absolute;
+      top: 0; left: 0;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: text-shine 3s ease-in-out infinite;
+    }
+
+    @keyframes brand-hypernova {
+      0%,100%{background-position:0% 50%;}
+      16%{background-position:100% 0%;}
+      33%{background-position:100% 100%;}
+      50%{background-position:0% 100%;}
+      66%{background-position:0% 0%;}
+      83%{background-position:50% 50%;}
+    }
+
+    @keyframes text-shine {
+      0% { background-position: -200px; }
+      100% { background-position: 200px; }
+    }
+
+    .dashboard-stats {
+      display: flex;
+      gap: 35px;
+      justify-content: center;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 20px 25px;
+      background: 
+        linear-gradient(135deg, rgba(76, 201, 240, 0.15), rgba(0, 0, 0, 0.9)),
+        radial-gradient(circle at center, rgba(255,215,0,0.05), transparent);
+      border: 3px solid var(--hologram-blue);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .stat-item:hover::before { transform: translateX(100%); }
+
+    .stat-item:hover {
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.4), 0 15px 40px rgba(0,0,0,0.3);
+      transform: translateY(-8px) scale(1.05);
+    }
+
+    .stat-number {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.5em;
+      font-weight: 900;
+      color: var(--terminal-green);
+      display: block;
+      animation: number-hyperglow 1.5s ease-in-out infinite alternate;
+      text-shadow: 0 0 30px var(--terminal-green);
+    }
+
+    @keyframes number-hyperglow {
+      0% { 
+        text-shadow: 0 0 30px var(--terminal-green), 0 0 50px var(--success-green); 
+        transform: scale(1);
+      }
+      100% { 
+        text-shadow: 0 0 40px var(--terminal-green), 0 0 70px var(--success-green), 0 0 90px var(--cyber-mint); 
+        transform: scale(1.05);
+      }
+    }
+
+    .stat-label {
+      font-family: 'Press Start 2P', monospace;
+      color: var(--hologram-blue);
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 0.7em;
+      margin-top: 8px;
+    }
+
+    .dashboard-controls {
+      display: flex;
+      gap: 25px;
+    }
+
+    .control-btn {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, var(--quantum-purple), var(--laser-red), var(--neon-pink));
+      border: 3px solid var(--neon-pink);
+      border-radius: 25px;
+      color: var(--paper-white);
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      font-size: 1em;
+    }
+
+    .control-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .control-btn:hover::before { left: 100%; }
+    .control-btn:hover {
+      border-color: var(--terminal-green);
+      box-shadow: 0 0 50px rgba(0, 255, 65, 0.5), 0 10px 30px rgba(0,0,0,0.3);
+      transform: translateY(-5px) scale(1.05);
+    }
+
+    /* ----------------- REVOLUTIONARY SPOTLIGHT SECTION ----------------- */
+    .spotlight-hero {
+      max-width: 2000px;
+      margin: 60px auto;
+      padding: 0 50px;
+      position: relative;
+    }
+
+    .spotlight-container {
+      background: 
+        linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(45,27,105,0.9) 25%, rgba(247,37,133,0.15) 50%, rgba(114,9,183,0.85) 75%, rgba(0,0,0,0.95) 100%),
+        repeating-linear-gradient(45deg, transparent, transparent 25px, rgba(76, 201, 240, 0.03) 25px, rgba(76, 201, 240, 0.03) 50px),
+        radial-gradient(ellipse at center, rgba(255,215,0,0.08) 0%, transparent 70%);
+      border: 6px solid;
+      border-image: linear-gradient(45deg, var(--laser-red), var(--neon-gold), var(--hologram-blue), var(--terminal-green), var(--neon-pink)) 1;
+      border-radius: 40px;
+      padding: 50px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(30px);
+    }
+
+    .spotlight-container::before {
+      content: '';
+      position: absolute;
+      top: -100%; left: -100%;
+      width: 300%; height: 300%;
+      background: 
+        conic-gradient(from 0deg at 50% 50%, 
+          transparent 0deg, 
+          rgba(255, 215, 0, 0.1) 60deg, 
+          transparent 120deg,
+          rgba(76, 201, 240, 0.08) 180deg,
+          transparent 240deg,
+          rgba(255, 20, 147, 0.06) 300deg,
+          transparent 360deg);
+      animation: spotlight-hyperspin 15s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes spotlight-hyperspin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .spotlight-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .spotlight-poster {
+      position: relative;
+      border-radius: 30px;
+      overflow: hidden;
+      height: 600px;
+      background: 
+        linear-gradient(135deg, var(--deep-purple), var(--quantum-purple), var(--hologram-blue), var(--dark-bg)),
+        radial-gradient(circle at center, rgba(255,215,0,0.1), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid var(--hologram-blue);
+      box-shadow: 
+        0 0 80px rgba(76, 201, 240, 0.4),
+        inset 0 0 50px rgba(255,215,0,0.1);
+      transition: all 0.4s ease;
+    }
+
+    .spotlight-poster:hover {
+      transform: scale(1.02) rotateY(5deg);
+      box-shadow: 
+        0 0 100px rgba(76, 201, 240, 0.6),
+        0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .spotlight-poster::after {
+      content: '🎬';
+      font-size: 12em;
+      opacity: 0.4;
+      animation: poster-hyperpulse 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 50px var(--hologram-blue));
+    }
+
+    @keyframes poster-hyperpulse {
+      0%, 100% { 
+        transform: scale(1) rotate(0deg); 
+        filter: drop-shadow(0 0 50px var(--hologram-blue)) drop-shadow(0 0 100px var(--neon-gold)); 
+      }
+      33% { 
+        transform: scale(1.1) rotate(10deg); 
+        filter: drop-shadow(0 0 60px var(--neon-pink)) drop-shadow(0 0 120px var(--laser-red)); 
+      }
+      66% { 
+        transform: scale(0.95) rotate(-5deg); 
+        filter: drop-shadow(0 0 70px var(--terminal-green)) drop-shadow(0 0 140px var(--success-green)); 
+      }
+    }
+
+    .spotlight-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .spotlight-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 5.5em;
+      background: linear-gradient(45deg, var(--neon-gold), var(--laser-red), var(--hologram-blue), var(--terminal-green), var(--neon-pink), var(--cyber-yellow));
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: title-hypernova 4s ease-in-out infinite;
+      margin-bottom: 30px;
+      line-height: 0.9;
+      text-shadow: 0 0 100px rgba(255,215,0,0.3);
+      position: relative;
+    }
+
+    @keyframes title-hypernova {
+      0%, 100% { background-position: 0% 50%; }
+      25% { background-position: 100% 0%; }
+      50% { background-position: 100% 100%; }
+      75% { background-position: 0% 100%; }
+    }
+
+    .spotlight-meta {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      border: 3px solid;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .meta-tag::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .meta-tag:hover::before { left: 100%; }
+
+    .meta-tag.genre {
+      background: linear-gradient(45deg, var(--quantum-purple), var(--deep-purple));
+      color: var(--paper-white);
+      border-color: var(--quantum-purple);
+      box-shadow: 0 0 30px rgba(114,9,183,0.5);
+    }
+
+    .meta-tag.year {
+      background: linear-gradient(45deg, var(--laser-red), var(--vintage-red));
+      color: var(--paper-white);
+      border-color: var(--laser-red);
+      box-shadow: 0 0 30px rgba(247,37,133,0.5);
+    }
+
+    .meta-tag.rating {
+      background: linear-gradient(45deg, var(--terminal-green), var(--success-green));
+      color: var(--dark-bg);
+      border-color: var(--terminal-green);
+      box-shadow: 0 0 30px rgba(57,255,20,0.5);
+    }
+
+    .meta-tag.duration {
+      background: linear-gradient(45deg, var(--hologram-blue), var(--electric-blue));
+      color: var(--dark-bg);
+      border-color: var(--hologram-blue);
+      box-shadow: 0 0 30px rgba(76,201,240,0.5);
+    }
+
+    .spotlight-description {
+      font-size: 1.4em;
+      line-height: 1.8;
+      color: var(--paper-white);
+      margin-bottom: 50px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 400;
+      text-shadow: 0 0 20px rgba(255,248,220,0.3);
+    }
+
+    .spotlight-actions {
+      display: flex;
+      gap: 30px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 22px 40px;
+      border: 4px solid;
+      border-radius: 30px;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .action-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+      transition: all 0.6s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .action-btn:hover::before {
+      width: 300px; height: 300px;
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--laser-red), var(--neon-pink), var(--plasma-pink));
+      color: var(--paper-white);
+      border-color: var(--laser-red);
+      box-shadow: 0 0 40px rgba(247,37,133,0.4);
+    }
+
+    .action-btn.secondary {
+      background: linear-gradient(135deg, var(--terminal-green), var(--success-green), var(--cyber-mint));
+      color: var(--dark-bg);
+      border-color: var(--terminal-green);
+      box-shadow: 0 0 40px rgba(57,255,20,0.4);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 80px currentColor;
+    }
+
+    /* ----------------- NEXT-GEN DASHBOARD GRID ----------------- */
+    .dashboard-grid {
+      max-width: 2000px;
+      margin: 80px auto;
+      padding: 0 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 50px;
+    }
+
+    .dashboard-widget {
+      background: 
+        linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(45,27,105,0.8) 50%, rgba(0,0,0,0.95) 100%),
+        radial-gradient(circle at center, rgba(76,201,240,0.05), transparent);
+      border: 4px solid var(--cyber-mint);
+      border-radius: 30px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(25px);
+      transition: all 0.4s ease;
+    }
+
+    .dashboard-widget::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: 
+        repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,215,0,0.02) 30px, rgba(255,215,0,0.02) 60px);
+      pointer-events: none;
+    }
+
+    .dashboard-widget:hover {
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 60px rgba(255, 215, 0, 0.3), 0 20px 50px rgba(0,0,0,0.3);
+      transform: translateY(-10px) scale(1.02);
+    }
+
+    .widget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid var(--hologram-blue);
+      position: relative;
+    }
+
+    .widget-header::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--hologram-blue), var(--neon-gold), var(--laser-red));
+      transform: scaleX(0);
+      transition: transform 0.6s ease;
+    }
+
+    .dashboard-widget:hover .widget-header::after {
+      transform: scaleX(1);
+    }
+
+    .widget-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.2em;
+      color: var(--hologram-blue);
+      text-transform: uppercase;
+      text-shadow: 0 0 20px var(--hologram-blue);
+    }
+
+    .widget-icon {
+      font-size: 2.5em;
+      animation: icon-hyperpulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px currentColor);
+    }
+
+    @keyframes icon-hyperpulse {
+      0%, 100% { 
+        transform: scale(1) rotate(0deg); 
+        filter: drop-shadow(0 0 20px currentColor);
+      }
+      50% { 
+        transform: scale(1.15) rotate(5deg); 
+        filter: drop-shadow(0 0 30px currentColor) drop-shadow(0 0 50px currentColor);
+      }
+    }
+
+    /* ----------------- ENHANCED TRENDING MOVIES ----------------- */
+    .trending-list {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .trending-item {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      padding: 20px;
+      background: 
+        linear-gradient(135deg, rgba(76, 201, 240, 0.15), rgba(0, 0, 0, 0.8)),
+        radial-gradient(circle at left, rgba(255,215,0,0.05), transparent);
+      border: 3px solid var(--hologram-blue);
+      border-radius: 20px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trending-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .trending-item:hover::before { left: 100%; }
+
+    .trending-item:hover {
+      border-color: var(--neon-gold);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(0, 0, 0, 0.9));
+      transform: translateX(15px) scale(1.02);
+      box-shadow: 0 0 40px rgba(255,215,0,0.3);
+    }
+
+    .trending-rank {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.5em;
+      font-weight: 900;
+      color: var(--neon-gold);
+      min-width: 60px;
+      text-align: center;
+      text-shadow: 0 0 30px var(--neon-gold);
+      animation: rank-glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes rank-glow {
+      0% { text-shadow: 0 0 30px var(--neon-gold); }
+      100% { text-shadow: 0 0 50px var(--neon-gold), 0 0 70px var(--amber); }
+    }
+
+    .trending-info h4 {
+      font-family: 'Audiowide', monospace;
+      color: var(--paper-white);
+      margin-bottom: 8px;
+      font-size: 1.3em;
+      text-shadow: 0 0 15px rgba(255,248,220,0.3);
+    }
+
+    .trending-info p {
+      color: var(--hologram-blue);
+      font-size: 1em;
+      text-shadow: 0 0 10px var(--hologram-blue);
+    }
+
+    .trending-score {
+      margin-left: auto;
+      padding: 12px 20px;
+      background: linear-gradient(45deg, var(--terminal-green), var(--success-green), var(--cyber-mint));
+      color: var(--dark-bg);
+      border-radius: 15px;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      font-size: 1.1em;
+      box-shadow: 0 0 30px rgba(57,255,20,0.4);
+      animation: score-pulse 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes score-pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    /* ----------------- ADVANCED ANALYTICS WIDGET ----------------- */
+    .analytics-charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .chart-container {
+      background: 
+        linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(45, 27, 105, 0.7)),
+        radial-gradient(circle at center, rgba(247,37,133,0.1), transparent);
+      border: 3px solid var(--laser-red);
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .chart-container:hover {
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 40px rgba(255,215,0,0.3);
+      transform: scale(1.05);
+    }
+
+    .chart-title {
+      font-family: 'Orbitron', monospace;
+      color: var(--laser-red);
+      margin-bottom: 20px;
+      font-size: 1em;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px var(--laser-red);
+    }
+
+    .chart-value {
+      font-size: 3em;
+      font-weight: 900;
+      font-family: 'Orbitron', monospace;
+      background: linear-gradient(45deg, var(--neon-gold), var(--hologram-blue), var(--terminal-green));
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: chart-hyperglow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes chart-hyperglow {
+      0% { 
+        background-position: 0% 50%;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.5); 
+      }
+      100% { 
+        background-position: 100% 50%;
+        text-shadow: 0 0 50px rgba(76, 201, 240, 0.8); 
+      }
+    }
+
+    .chart-bar {
+      width: 100%;
+      height: 12px;
+      background: var(--dark-bg);
+      border-radius: 6px;
+      margin-top: 15px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .chart-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--terminal-green), var(--success-green), var(--cyber-mint));
+      border-radius: 6px;
+      animation: progress-hyperfill 3s ease-in-out infinite alternate;
+      box-shadow: 0 0 20px rgba(57,255,20,0.5);
+    }
+
+    @keyframes progress-hyperfill {
+      0% { width: 55%; }
+      100% { width: 90%; }
+    }
+
+    /* ----------------- REVOLUTIONARY ACTIVITY FEED ----------------- */
+    .activity-feed {
+      max-height: 500px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--hologram-blue) var(--dark-bg);
+    }
+
+    .activity-feed::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .activity-feed::-webkit-scrollbar-track {
+      background: var(--dark-bg);
+    }
+
+    .activity-feed::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, var(--hologram-blue), var(--neon-gold));
+      border-radius: 4px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px;
+      margin-bottom: 20px;
+      background: 
+        linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(114, 9, 183, 0.3)),
+        radial-gradient(circle at left, rgba(76,201,240,0.1), transparent);
+      border-left: 5px solid var(--quantum-purple);
+      border-radius: 15px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .activity-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 5px; height: 100%;
+      background: linear-gradient(180deg, var(--quantum-purple), var(--neon-gold), var(--hologram-blue));
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .activity-item:hover::before { transform: scaleY(1); }
+
+    .activity-item:hover {
+      border-left-color: var(--neon-gold);
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(114, 9, 183, 0.4));
+      transform: translateX(10px) scale(1.02);
+      box-shadow: 0 0 30px rgba(255,215,0,0.2);
+    }
+
+    .activity-icon {
+      font-size: 2em;
+      width: 50px;
+      text-align: center;
+      filter: drop-shadow(0 0 15px currentColor);
+      animation: activity-float 4s ease-in-out infinite;
+    }
+
+    @keyframes activity-float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-3px) rotate(5deg); }
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-content h5 {
+      color: var(--paper-white);
+      margin-bottom: 5px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 1.2em;
+      text-shadow: 0 0 10px rgba(255,248,220,0.3);
+    }
+
+    .activity-content p {
+      color: var(--hologram-blue);
+      font-size: 1em;
+      text-shadow: 0 0 8px var(--hologram-blue);
+    }
+
+    .activity-time {
+      color: var(--cyber-mint);
+      font-size: 0.9em;
+      font-family: 'Courier Prime', monospace;
+      text-shadow: 0 0 10px var(--cyber-mint);
+      animation: time-glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes time-glow {
+      0% { text-shadow: 0 0 10px var(--cyber-mint); }
+      100% { text-shadow: 0 0 20px var(--cyber-mint), 0 0 30px var(--terminal-green); }
+    }
+
+    /* ----------------- ULTIMATE QUICK ACTIONS ----------------- */
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    .quick-action {
+      background: linear-gradient(135deg, var(--laser-red), var(--neon-pink), var(--plasma-pink));
+      border: 3px solid var(--laser-red);
+      border-radius: 25px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quick-action::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
+      transition: all 0.8s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .quick-action:hover::before {
+      width: 400px; height: 400px;
+    }
+
+    .quick-action:hover {
+      transform: translateY(-12px) scale(1.08) rotateZ(2deg);
+      box-shadow: 0 25px 60px rgba(247, 37, 133, 0.5), 0 0 80px rgba(255,20,147,0.3);
+      border-color: var(--neon-gold);
+    }
+
+    .quick-action-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+      display: block;
+      animation: action-hyperfloat 2.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 30px currentColor);
+    }
+
+    @keyframes action-hyperfloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+      33% { transform: translateY(-8px) rotate(5deg) scale(1.05); }
+      66% { transform: translateY(-3px) rotate(-3deg) scale(0.98); }
+    }
+
+    .quick-action-title {
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      color: var(--paper-white);
+      text-transform: uppercase;
+      font-size: 1.1em;
+      text-shadow: 0 0 20px rgba(255,248,220,0.5);
+    }
+
+    /* ----------------- FLOATING HOLOGRAPHIC ELEMENTS ----------------- */
+    .hologram-elements {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 50;
+      overflow: hidden;
+    }
+
+    .hologram-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--hologram-blue);
+      border-radius: 50%;
+      animation: particle-hyperfloat 20s linear infinite;
+      opacity: 0.7;
+      box-shadow: 0 0 20px currentColor;
+    }
+
+    @keyframes particle-hyperfloat {
+      0% { 
+        transform: translateY(100vh) translateX(0px) rotate(0deg) scale(0);
+        opacity: 0;
+      }
+      5% { opacity: 0.7; transform: scale(1); }
+      95% { opacity: 0.7; }
+      100% { 
+        transform: translateY(-100px) translateX(300px) rotate(720deg) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .floating-icons {
+      position: absolute;
+      pointer-events: none;
+      z-index: 60;
+      font-size: 3em;
+      opacity: 0.4;
+      animation: icon-hyperdrift 30s linear infinite;
+      filter: drop-shadow(0 0 30px currentColor);
+    }
+
+    @keyframes icon-hyperdrift {
+      0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      20% { transform: translate(400px, -200px) rotate(72deg) scale(1.2); }
+      40% { transform: translate(-300px, -400px) rotate(144deg) scale(0.8); }
+      60% { transform: translate(-600px, 150px) rotate(216deg) scale(1.1); }
+      80% { transform: translate(200px, 300px) rotate(288deg) scale(0.9); }
+      100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+    }
+
+    /* ----------------- MATRIX RAIN EFFECT ----------------- */
+    .matrix-rain {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 30;
+      opacity: 0.1;
+    }
+
+    .matrix-column {
+      position: absolute;
+      top: -100px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 18px;
+      color: var(--terminal-green);
+      animation: matrix-fall 8s linear infinite;
+      text-shadow: 0 0 10px var(--terminal-green);
+    }
+
+    @keyframes matrix-fall {
+      0% { 
+        transform: translateY(-100px);
+        opacity: 1;
+      }
+      100% { 
+        transform: translateY(calc(100vh + 100px));
+        opacity: 0;
+      }
+    }
+
+    /* ----------------- RESPONSIVE ENHANCEMENTS ----------------- */
+    @media (max-width: 1400px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .spotlight-content { grid-template-columns: 1fr; }
+      .analytics-charts { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 1200px) {
+      .header-container { 
+        grid-template-columns: 1fr; 
+        justify-items: center; 
+        gap: 30px; 
+      }
+      .dashboard-stats { flex-wrap: wrap; }
+      .dashboard-brand { font-size: 2.8em; }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-brand { font-size: 2.2em; }
+      .spotlight-title { font-size: 4em; }
+      .dashboard-controls { flex-direction: column; }
+      .quick-actions-grid { grid-template-columns: 1fr; }
+      .spotlight-actions { flex-direction: column; }
+      .hologram-elements { display: none; }
+      .matrix-rain { display: none; }
+      .spotlight-poster { height: 400px; }
+      .dashboard-grid { padding: 0 20px; }
+      .spotlight-hero { padding: 0 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-brand { font-size: 1.8em; }
+      .spotlight-title { font-size: 3em; }
+      .dashboard-widget { padding: 25px; }
+      .spotlight-container { padding: 30px; }
+      .meta-tag { font-size: 0.7em; }
+      .quick-action { padding: 20px; }
+    }
+
+    /* ----------------- LOADING ANIMATION ----------------- */
+    .page-loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--dark-bg);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: loader-fade 2s ease-in-out 3s forwards;
+    }
+
+    .loader-content {
+      text-align: center;
+    }
+
+    .loader-icon {
+      font-size: 8em;
+      animation: loader-spin 2s ease-in-out infinite;
+      margin-bottom: 30px;
+    }
+
+    @keyframes loader-spin {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+    }
+
+    .loader-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 2em;
+      font-weight: bold;
+      background: linear-gradient(45deg, var(--neon-gold), var(--hologram-blue), var(--laser-red));
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: text-wave 3s ease-in-out infinite;
+    }
+
+    @keyframes text-wave {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes loader-fade {
+      0% { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Page Loader -->
+  <div class="page-loader">
+    <div class="loader-content">
+      <div class="loader-icon">🎬</div>
+      <div class="loader-text">CinemaVault85</div>
+    </div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div class="custom-cursor">🎯</div>
+
+  <!-- Matrix Rain Effect -->
+  <div class="matrix-rain" id="matrix-rain"></div>
+
+  <!-- Floating Hologram Elements -->
+  <div class="hologram-elements" id="hologram-elements"></div>
+
+  <!-- Floating Icons -->
+  <div class="floating-icons" style="top: 15%; left: 10%; color: var(--neon-gold); animation-delay: 0s;">🎬</div>
+  <div class="floating-icons" style="top: 70%; left: 85%; color: var(--hologram-blue); animation-delay: 5s;">🍿</div>
+  <div class="floating-icons" style="top: 25%; left: 75%; color: var(--laser-red); animation-delay: 10s;">🎭</div>
+  <div class="floating-icons" style="top: 80%; left: 20%; color: var(--terminal-green); animation-delay: 15s;">🎪</div>
+  <div class="floating-icons" style="top: 45%; left: 5%; color: var(--neon-pink); animation-delay: 20s;">🎨</div>
+  <div class="floating-icons" style="top: 60%; left: 90%; color: var(--cyber-mint); animation-delay: 25s;">🎵</div>
+
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <a href="#" class="dashboard-brand">CinemaVault85</a>
+      
+      <div class="dashboard-stats">
+        <div class="stat-item">
+          <span class="stat-number">2,847</span>
+          <span class="stat-label">Movies</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1,203</span>
+          <span class="stat-label">Reviews</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">89.5%</span>
+          <span class="stat-label">Accuracy</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">24/7</span>
+          <span class="stat-label">Online</span>
+        </div>
+      </div>
+      
+      <div class="dashboard-controls">
+        <button class="control-btn">🔍 Search</button>
+        <button class="control-btn">⚙️ Settings</button>
+        <button class="control-btn">👤 Profile</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Spotlight Hero Section -->
+  <section class="spotlight-hero">
+    <div class="spotlight-container">
+      <div class="spotlight-content">
+        <div class="spotlight-poster"></div>
+        
+        <div class="spotlight-info">
+          <h1 class="spotlight-title">RETRO FUTURES</h1>
+          
+          <div class="spotlight-meta">
+            <span class="meta-tag genre">Sci-Fi</span>
+            <span class="meta-tag year">1985</span>
+            <span class="meta-tag rating">9.2/10</span>
+            <span class="meta-tag duration">2h 15m</span>
+          </div>
+          
+          <p class="spotlight-description">
+            Experience the ultimate retro-futuristic journey through neon-lit cities and cyberpunk landscapes. 
+            A groundbreaking film that defined the aesthetic of tomorrow, featuring stunning visuals, 
+            mind-bending storylines, and an unforgettable synthwave soundtrack that captures the essence 
+            of the 80s vision of the future.
+          </p>
+          
+          <div class="spotlight-actions">
+            <button class="action-btn primary">▶️ Watch Now</button>
+            <button class="action-btn secondary">+ Add to List</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Grid -->
+  <div class="dashboard-grid">
+    <!-- Trending Movies Widget -->
+    <div class="dashboard-widget">
+      <div class="widget-header">
+        <h3 class="widget-title">🔥 Trending Now</h3>
+        <div class="widget-icon" style="color: var(--laser-red);">📈</div>
+      </div>
+      
+      <div class="trending-list">
+        <div class="trending-item">
+          <div class="trending-rank">1</div>
+          <div class="trending-info">
+            <h4>Neon Dreams</h4>
+            <p>Cyberpunk Thriller • 1984</p>
+          </div>
+          <div class="trending-score">9.8</div>
+        </div>
+        
+        <div class="trending-item">
+          <div class="trending-rank">2</div>
+          <div class="trending-info">
+            <h4>Electric Avenue</h4>
+            <p>Synth Action • 1987</p>
+          </div>
+          <div class="trending-score">9.5</div>
+        </div>
+        
+        <div class="trending-item">
+          <div class="trending-rank">3</div>
+          <div class="trending-info">
+            <h4>Digital Horizons</h4>
+            <p>Tech Drama • 1983</p>
+          </div>
+          <div class="trending-score">9.3</div>
+        </div>
+        
+        <div class="trending-item">
+          <div class="trending-rank">4</div>
+          <div class="trending-info">
+            <h4>Chrome Hearts</h4>
+            <p>Romance Thriller • 1986</p>
+          </div>
+          <div class="trending-score">9.1</div>
+        </div>
+        
+        <div class="trending-item">
+          <div class="trending-rank">5</div>
+          <div class="trending-info">
+            <h4>Laser Protocol</h4>
+            <p>Espionage Action • 1985</p>
+          </div>
+          <div class="trending-score">8.9</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Widget -->
+    <div class="dashboard-widget">
+      <div class="widget-header">
+        <h3 class="widget-title">📊 Analytics</h3>
+        <div class="widget-icon" style="color: var(--neon-gold);">💎</div>
+      </div>
+      
+      <div class="analytics-charts">
+        <div class="chart-container">
+          <div class="chart-title">User Engagement</div>
+          <div class="chart-value">94%</div>
+          <div class="chart-bar">
+            <div class="chart-progress" style="width: 94%;"></div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <div class="chart-title">Movie Quality</div>
+          <div class="chart-value">8.7</div>
+          <div class="chart-bar">
+            <div class="chart-progress" style="width: 87%;"></div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <div class="chart-title">Weekly Growth</div>
+          <div class="chart-value">+23%</div>
+          <div class="chart-bar">
+            <div class="chart-progress" style="width: 76%;"></div>
+          </div>
+        </div>
+        
+        <div class="chart-container">
+          <div class="chart-title">Server Uptime</div>
+          <div class="chart-value">99.9%</div>
+          <div class="chart-bar">
+            <div class="chart-progress" style="width: 99%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity Widget -->
+    <div class="dashboard-widget">
+      <div class="widget-header">
+        <h3 class="widget-title">⚡ Recent Activity</h3>
+        <div class="widget-icon" style="color: var(--terminal-green);">🔄</div>
+      </div>
+      
+      <div class="activity-feed">
+        <div class="activity-item">
+          <div class="activity-icon" style="color: var(--neon-gold);">🎬</div>
+          <div class="activity-content">
+            <h5>New movie "Cyber Nights" added</h5>
+            <p>Premium collection updated with latest release</p>
+          </div>
+          <div class="activity-time">2m ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon" style="color: var(--hologram-blue);">👤</div>
+          <div class="activity-content">
+            <h5>User review submitted</h5>
+            <p>5-star review for "Retro Futures"</p>
+          </div>
+          <div class="activity-time">7m ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon" style="color: var(--laser-red);">🔥</div>
+          <div class="activity-content">
+            <h5>Trending alert triggered</h5>
+            <p>"Neon Dreams" reached #1 position</p>
+          </div>
+          <div class="activity-time">15m ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon" style="color: var(--neon-pink);">💫</div>
+          <div class="activity-content">
+            <h5>System optimization complete</h5>
+            <p>Performance improved by 23%</p>
+          </div>
+          <div class="activity-time">32m ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon" style="color: var(--terminal-green);">📈</div>
+          <div class="activity-content">
+            <h5>Weekly report generated</h5>
+            <p>Analytics dashboard updated</p>
+          </div>
+          <div class="activity-time">1h ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-icon" style="color: var(--cyber-mint);">🎯</div>
+          <div class="activity-content">
+            <h5>Recommendation engine updated</h5>
+            <p>AI algorithms fine-tuned</p>
+          </div>
+          <div class="activity-time">2h ago</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions Widget -->
+    <div class="dashboard-widget">
+      <div class="widget-header">
+        <h3 class="widget-title">⚡ Quick Actions</h3>
+        <div class="widget-icon" style="color: var(--neon-pink);">🚀</div>
+      </div>
+      
+      <div class="quick-actions-grid">
+        <div class="quick-action">
+          <span class="quick-action-icon">📥</span>
+          <div class="quick-action-title">Add Movie</div>
+        </div>
+        
+        <div class="quick-action">
+          <span class="quick-action-icon">🎭</span>
+          <div class="quick-action
