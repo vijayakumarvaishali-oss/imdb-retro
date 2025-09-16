@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results - CinemaVault85</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Courier+Prime:wght@400;700&family=Bebas+Neue&family=Press+Start+2P&family=Iceland&family=Audiowide&display=swap');
+
+    /* ----------------- VARIABLES ----------------- */
+    :root {
+      --neon-gold: #FFD700;
+      --retro-orange: #FF6B35;
+      --deep-purple: #2D1B69;
+      --electric-blue: #00D9FF;
+      --vintage-red: #DC143C;
+      --dark-bg: #0A0A0A;
+      --paper-white: #FFF8DC;
+      --amber: #FFBF00;
+      --copper: #B87333;
+      --success-green: #00FF41;
+      --neon-pink: #FF1493;
+      --cyber-mint: #00FFAA;
+      --matrix-green: #00FF00;
+      --terminal-green: #39FF14;
+    }
+
+    /* ----------------- GLOBAL STYLES ----------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Courier Prime', monospace;
+      background: 
+        radial-gradient(circle at 20% 80%, var(--deep-purple) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--vintage-red) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 80%),
+        linear-gradient(135deg, var(--dark-bg) 0%, var(--deep-purple) 50%, var(--dark-bg) 100%);
+      background-attachment: fixed;
+      color: var(--paper-white);
+      cursor: none;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ----------------- SCANLINES ----------------- */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 217, 255, 0.03) 2px, rgba(0, 217, 255, 0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 100px, rgba(255, 20, 147, 0.01) 100px, rgba(255, 20, 147, 0.01) 101px);
+      pointer-events: none;
+      z-index: 1000;
+      animation: scan-lines 0.1s linear infinite;
+    }
+
+    @keyframes scan-lines {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(4px); }
+    }
+
+    /* ----------------- CURSOR TRAIL SYSTEM ----------------- */
+    .cursor-trail {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      mix-blend-mode: screen;
+      animation: trail-fade 0.8s ease-out forwards;
+    }
+
+    @keyframes trail-fade {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 20px currentColor;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.3);
+        box-shadow: 0 0 5px currentColor;
+      }
+    }
+
+    .custom-cursor {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 24px;
+      animation: cursor-matrix 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px var(--terminal-green));
+      transition: all 0.1s ease;
+    }
+
+    @keyframes cursor-matrix {
+      0%, 100% { 
+        filter: drop-shadow(0 0 20px var(--terminal-green));
+        transform: rotate(0deg) scale(1);
+      }
+      25% { 
+        filter: drop-shadow(0 0 30px var(--neon-pink));
+        transform: rotate(90deg) scale(1.1);
+      }
+      50% { 
+        filter: drop-shadow(0 0 25px var(--electric-blue));
+        transform: rotate(180deg) scale(0.9);
+      }
+      75% { 
+        filter: drop-shadow(0 0 35px var(--neon-gold));
+        transform: rotate(270deg) scale(1.2);
+      }
+    }
+
+    /* ----------------- RETRO RADIO ----------------- */
+    .retro-radio {
+      position: fixed;
+      top: 50%;
+      right: 30px;
+      transform: translateY(-50%);
+      width: 80px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--copper), var(--amber));
+      border: 4px solid var(--vintage-red);
+      border-radius: 15px 15px 5px 5px;
+      z-index: 200;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .retro-radio:hover {
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: 0 0 40px var(--neon-gold), 0 8px 32px rgba(0, 0, 0, 0.7);
+    }
+
+    .radio-antenna {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 30px;
+      background: linear-gradient(to top, var(--vintage-red), var(--neon-gold));
+      border-radius: 2px;
+      animation: antenna-glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes antenna-glow {
+      0% { box-shadow: 0 0 10px var(--vintage-red); }
+      100% { box-shadow: 0 0 20px var(--neon-gold), 0 0 30px var(--electric-blue); }
+    }
+
+    .radio-speaker {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle, var(--dark-bg) 30%, var(--copper) 31%, var(--copper) 40%, var(--dark-bg) 41%);
+      border-radius: 50%;
+      border: 2px solid var(--vintage-red);
+    }
+
+    .radio-controls {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .radio-knob {
+      width: 15px;
+      height: 15px;
+      background: linear-gradient(45deg, var(--neon-gold), var(--electric-blue));
+      border: 1px solid var(--vintage-red);
+      border-radius: 50%;
+      animation: knob-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes knob-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); box-shadow: 0 0 15px var(--electric-blue); }
+    }
+
+    .radio-display {
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 12px;
+      background: var(--dark-bg);
+      border: 1px solid var(--terminal-green);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .radio-frequency {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--terminal-green) 0%, var(--terminal-green) 60%, transparent 61%);
+      animation: frequency-scan 4s linear infinite;
+      position: relative;
+    }
+
+    @keyframes frequency-scan {
+      0% { background-position: -100% 0; }
+      100% { background-position: 100% 0; }
+    }
+
+    /* ----------------- FLOATING ELEMENTS ----------------- */
+    .floating-element {
+      position: absolute;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.6;
+      animation: float-around 20s linear infinite;
+    }
+
+    @keyframes float-around {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(200px, -100px) rotate(90deg); }
+      50% { transform: translate(-150px, -200px) rotate(180deg); }
+      75% { transform: translate(-300px, 50px) rotate(270deg); }
+      100% { transform: translate(0, 0) rotate(360deg); }
+    }
+
+    .cassette-icon { font-size: 40px; color: var(--amber); animation-duration: 25s; }
+    .vinyl-icon { font-size: 35px; color: var(--neon-pink); animation-duration: 18s; animation-direction: reverse; }
+    .vhs-icon { font-size: 45px; color: var(--electric-blue); animation-duration: 22s; }
+
+    /* ----------------- NAVIGATION ----------------- */
+    .nav-header {
+      background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(45,27,105,0.8)), repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,215,0,0.02) 20px, rgba(255,215,0,0.02) 40px);
+      padding: 20px 0;
+      border-bottom: 4px solid var(--neon-gold);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(25px);
+      box-shadow: 0 8px 32px rgba(255,215,0,0.3), 0 0 100px rgba(0,217,255,0.1);
+    }
+
+    .nav-container {
+      max-width: 1800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+    }
+
+    .nav-brand {
+      font-family: 'Audiowide', monospace;
+      font-size: 2.2em;
+      font-weight: 900;
+      background: linear-gradient(45deg, var(--neon-gold), var(--electric-blue), var(--neon-pink), var(--terminal-green));
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      animation: brand-hyperglow 6s ease-in-out infinite;
+    }
+
+    @keyframes brand-hyperglow {
+      0%,100%{background-position:0% 50%;}
+      25%{background-position:100% 50%;}
+      50%{background-position:50% 100%;}
+      75%{background-position:50% 0%;}
+    }
+
+    .nav-links { display: flex; gap: 25px; align-items: center; }
+    .nav-link {
+      color: var(--amber);
+      text-decoration: none;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: 2px solid transparent;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,217,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    .nav-link:hover::before { left:100%; }
+    .nav-link:hover { border-color: var(--electric-blue); color: var(--electric-blue); box-shadow: 0 0 25px rgba(0,217,255,0.5); transform: translateY(-2px); }
+
+    /* ----------------- SEARCH SECTION ----------------- */
+    .search-container {
+      max-width: 1600px;
+      margin: 50px auto 30px;
+      padding: 0 30px;
+      position: relative;
+    }
+
+    .search-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .search-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 4em;
+      background: linear-gradient(45deg, var(--neon-gold), var(--electric-blue), var(--neon-pink));
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbow-text 3s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    }
+
+    @keyframes rainbow-text {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .search-box-container { position: relative; margin-bottom: 30px; }
+    .search-box {
+      width: 100%;
+      padding: 18px 60px 18px 25px;
+      background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(45,27,105,0.6)), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,215,0,0.02) 10px, rgba(255,215,0,0.02) 20px);
+      border: 3px solid var(--electric-blue);
+      border-radius: 30px;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.2em;
+      color: var(--paper-white);
+      backdrop-filter: blur(15px);
+      transition: all 0.3s ease;
+    }
+    .search-box:focus { 
+      outline:none; 
+      border-color:var(--neon-gold); 
+      box-shadow:0 0 30px rgba(255,215,0,0.4),0 0 60px rgba(0,217,255,0.2); 
+      transform:scale(1.02); 
+    }
+    .search-box::placeholder { color: rgba(248,248,255,0.6); font-style: italic; }
+
+    .search-btn {
+      position: absolute;
+      right: 5px; top: 50%;
+      transform: translateY(-50%);
+      width: 50px; height:50px;
+      background: radial-gradient(circle, var(--success-green), var(--cyber-mint));
+      border:none; border-radius:50%;
+      font-size:1.4em; color: var(--dark-bg);
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition: all 0.3s ease;
+    }
+    .search-btn:hover { 
+      transform: translateY(-50%) scale(1.1); 
+      box-shadow:0 0 25px rgba(0,255,65,0.6); 
+    }
+
+    /* ----------------- ADVANCED FILTER SYSTEM ----------------- */
+    .filter-panel {
+      background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(45,27,105,0.7));
+      border: 2px solid var(--cyber-mint);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(15px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .filter-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(0,255,170,0.02) 15px, rgba(0,255,170,0.02) 30px);
+      pointer-events: none;
+    }
+
+    .filter-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.2em;
+      color: var(--cyber-mint);
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .filter-category {
+      background: linear-gradient(135deg, rgba(45,27,105,0.8), rgba(0,0,0,0.9));
+      border: 2px solid var(--amber);
+      border-radius: 15px;
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .filter-category:hover {
+      border-color: var(--neon-gold);
+      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+      transform: translateY(-3px);
+    }
+
+    .filter-category-title {
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      color: var(--neon-gold);
+      margin-bottom: 10px;
+      font-size: 0.9em;
+      text-transform: uppercase;
+    }
+
+    .filter-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-option { 
+      padding: 8px 12px; 
+      border-radius: 12px; 
+      border: 2px solid var(--amber); 
+      cursor: pointer; 
+      transition: all 0.3s ease; 
+      font-family: 'Courier Prime', monospace; 
+      font-size: 0.8em;
+      background: rgba(0,0,0,0.5);
+    }
+    .filter-option:hover { 
+      border-color: var(--cyber-mint); 
+      color: var(--cyber-mint); 
+      transform: scale(1.05); 
+      box-shadow: 0 0 15px rgba(0,255,170,0.3);
+    }
+    .filter-option.active { 
+      background: linear-gradient(45deg, var(--success-green), var(--cyber-mint)); 
+      color: var(--dark-bg); 
+      border-color: var(--success-green); 
+      box-shadow: 0 0 20px rgba(0,255,65,0.4);
+    }
+
+    /* ----------------- RESULTS SECTION ----------------- */
+    .results-section {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(45,27,105,0.8), rgba(0,0,0,0.9));
+      border: 2px solid var(--electric-blue);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .results-count {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3em;
+      color: var(--neon-gold);
+      font-weight: bold;
+    }
+
+    .sort-controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .sort-label {
+      font-family: 'Courier Prime', monospace;
+      color: var(--cyber-mint);
+      font-weight: bold;
+    }
+
+    .sort-select {
+      padding: 10px 15px;
+      background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(45,27,105,0.6));
+      border: 2px solid var(--amber);
+      border-radius: 15px;
+      color: var(--paper-white);
+      font-family: 'Orbitron', monospace;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .sort-select:hover {
+      border-color: var(--electric-blue);
+      box-shadow: 0 0 15px rgba(0,217,255,0.3);
+    }
+
+    .view-toggle {
+      display: flex;
+      border: 2px solid var(--cyber-mint);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .view-btn {
+      padding: 10px 15px;
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: var(--cyber-mint);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .view-btn.active,
+    .view-btn:hover {
+      background: linear-gradient(45deg, var(--cyber-mint), var(--success-green));
+      color: var(--dark-bg);
+    }
+
+    /* ----------------- MOVIE CARDS ----------------- */
+    .movies-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+      gap: 30px; 
+      margin-bottom: 50px; 
+    }
+
+    .movie-card { 
+      background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(45,27,105,0.7)); 
+      border: 3px solid var(--cyber-mint); 
+      border-radius: 25px; 
+      overflow: hidden; 
+      position: relative; 
+      cursor: pointer; 
+      transition: all 0.5s ease; 
+      backdrop-filter: blur(15px);
+      height: 450px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .movie-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(45deg, transparent 30%, rgba(0,217,255,0.1) 50%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .movie-card:hover::before { opacity: 1; }
+
+    .movie-card:hover { 
+      transform: translateY(-10px) scale(1.03); 
+      border-color: var(--neon-gold); 
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 60px rgba(255,215,0,0.3); 
+    }
+
+    .movie-poster { 
+      width: 100%; 
+      height: 200px; 
+      background: linear-gradient(135deg, var(--deep-purple), var(--dark-bg)); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      position: relative; 
+      border-bottom: 3px solid var(--electric-blue);
+      overflow: hidden;
+    }
+
+    .movie-poster::after {
+      content: '🎬';
+      font-size: 4em;
+      opacity: 0.3;
+      animation: poster-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes poster-glow {
+      0%, 100% { 
+        transform: scale(1); 
+        filter: drop-shadow(0 0 20px var(--electric-blue)); 
+      }
+      50% { 
+        transform: scale(1.1); 
+        filter: drop-shadow(0 0 30px var(--neon-gold)); 
+      }
+    }
+
+    .movie-content {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    .movie-title { 
+      font-family: 'Audiowide', monospace; 
+      font-size: 1.3em; 
+      font-weight: 900; 
+      background: linear-gradient(45deg, var(--neon-gold), var(--electric-blue), var(--neon-pink)); 
+      background-size: 200% 200%;
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      animation: title-flow 4s ease-in-out infinite; 
+      margin-bottom: 10px;
+    }
+
+    @keyframes title-flow { 
+      0%,100%{background-position:0% 50%;} 
+      50%{background-position:100% 50%;} 
+    }
+
+    .movie-meta {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .movie-genre { 
+      background: linear-gradient(45deg, var(--deep-purple), var(--electric-blue)); 
+      color: white; 
+      padding: 5px 12px; 
+      border-radius: 12px; 
+      font-family: 'Press Start 2P', cursive; 
+      font-size: 0.6em; 
+      text-transform: uppercase;
+    }
+
+    .movie-year { 
+      background: linear-gradient(45deg, var(--vintage-red), var(--retro-orange)); 
+      color: white; 
+      padding: 5px 12px; 
+      border-radius: 12px; 
+      font-family: 'Orbitron', monospace; 
+      font-weight: bold; 
+      font-size: 0.7em;
+    }
+
+    .movie-rating {
+      background: linear-gradient(45deg, var(--success-green), var(--cyber-mint));
+      color: var(--dark-bg);
+      padding: 5px 12px;
+      border-radius: 12px;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      font-size: 0.7em;
+    }
+
+    .movie-description {
+      color: var(--paper-white);
+      font-size: 0.85em;
+      line-height: 1.4;
+      margin-bottom: 15px;
+      flex: 1;
+    }
+
+    .movie-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .movie-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid var(--electric-blue);
+      background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(45,27,105,0.3));
+      color: var(--electric-blue);
+      border-radius: 15px;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 0.8em;
+    }
+
+    .movie-btn:hover {
+      background: linear-gradient(135deg, var(--electric-blue), var(--cyber-mint));
+      color: var(--dark-bg);
+      box-shadow: 0 0 20px rgba(0,217,255,0.4);
+      transform: translateY(-2px);
+    }
+
+    .movie-btn.favorite {
+      border-color: var(--neon-pink);
+      color: var(--neon-pink);
+    }
+
+    .movie-btn.favorite:hover {
+      background: linear-gradient(135deg, var(--neon-pink), var(--vintage-red));
+      border-color: var(--neon-pink);
+    }
+
+    /* ----------------- PAGINATION ----------------- */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 50px 0;
+      padding: 20px;
+    }
+
+    .page-btn {
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--cyber-mint);
+      background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(45,27,105,0.6));
+      color: var(--cyber-mint);
+      border-radius: 15px;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-btn:hover,
+    .page-btn.active {
+      background: linear-gradient(45deg, var(--cyber-mint), var(--success-green));
+      color: var(--dark-bg);
+      box-shadow: 0 0 25px rgba(0,255,170,0.4);
+      transform: translateY(-3px);
+    }
+
+    /* ----------------- RESPONSIVE ----------------- */
+    @media (max-width: 768px) {
+      .nav-container { flex-direction: column; gap: 20px; }
+      .nav-brand { font-size: 1.8em; }
+      .nav-links { justify-content: center; flex-wrap: wrap; }
+      .search-title { font-size: 2.5em; }
+      .filter-grid { grid-template-columns: 1fr; }
+      .results-header { flex-direction: column; gap: 15px; }
+      .sort-controls { justify-content: center; }
+      .movies-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+      .retro-radio { right: 10px; width: 60px; height: 90px; }
+      .floating-element { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-brand { font-size: 1.5em; }
+      .search-title { font-size: 2em; }
+      .movies-grid { grid-template-columns: 1fr; }
+      .movie-card { height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom Cursor -->
+  <div class="custom-cursor">⚡</div>
+
+  <!-- Floating Retro Elements -->
+  <div class="floating-element cassette-icon" style="top: 10%; left: 5%;">📼</div>
+  <div class="floating-element vinyl-icon" style="top: 60%; left: 80%;">💽</div>
+  <div class="floating-element vhs-icon" style="top: 30%; left: 90%;">📹</div>
+  <div class="floating-element cassette-icon" style="top: 80%; left: 10%;">🎵</div>
+
+  <!-- Retro Radio -->
+  <div class="retro-radio" onclick="toggleRadio()">
+    <div class="radio-antenna"></div>
+    <div class="radio-speaker"></div>
+    <div class="radio-display">
+      <div class="radio-frequency"></div>
+    </div>
+    <div class="radio-controls">
+      <div class="radio-knob"></div>
+      <div class="radio-knob"></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav-header">
+    <div class="nav-container">
+      <a href="#" class="nav-brand">CinemaVault85</a>
+      <div class="nav-links">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Browse</a>
+        <a href="#" class="nav-link">Favorites</a>
+        <a href="#" class="nav-link">Profile</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Section -->
+  <div class="search-container">
+    <div class="search-header">
+      <h1 class="search-title">SEARCH RESULTS</h1>
+    </div>
+
+    <div class="search-box-container">
+      <input type="text" class="search-box" placeholder="Search for movies, actors, directors..." value="Action Movies">
+      <button class="search-btn">🔍</button>
+    </div>
+
+    <!-- Advanced Filter Panel -->
+    <div class="filter-panel">
+      <h3 class="filter-title">Advanced Filters</h3>
+      <div class="filter-grid">
+        <div class="filter-category">
+          <div class="filter-category-title">Genre</div>
+          <div class="filter-options">
+            <span class="filter-option active">Action</span>
+            <span class="filter-option">Comedy</span>
+            <span class="filter-option">Drama</span>
+            <span class="filter-option">Sci-Fi</span>
+            <span class="filter-option">Horror</span>
+          </div>
+        </div>
+        <div class="filter-category">
+          <div class="filter-category-title">Year</div>
+          <div class="filter-options">
+            <span class="filter-option">2020s</span>
+            <span class="filter-option">2010s</span>
+            <span class="filter-option">2000s</span>
+            <span class="filter-option active">1980s</span>
+            <span class="filter-option">Classic</span>
+          </div>
+        </div>
+        <div class="filter-category">
+          <div class="filter-category-title">Rating</div>
+          <div class="filter-options">
+            <span class="filter-option">9+ IMDb</span>
+            <span class="filter-option active">8+ IMDb</span>
+            <span class="filter-option">7+ IMDb</span>
+            <span class="filter-option">All Ratings</span>
+          </div>
+        </div>
+        <div class="filter-category">
+          <div class="filter-category-title">Duration</div>
+          <div class="filter-options">
+            <span class="filter-option">< 90 min</span>
+            <span class="filter-option active">90-120 min</span>
+            <span class="filter-option">> 120 min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div class="results-section">
+    <div class="results-header">
+      <div class="results-count">Found 24 Movies</div>
+      <div class="sort-controls">
+        <span class="sort-label">Sort by:</span>
+        <select class="sort-select">
+          <option>Relevance</option>
+          <option>Year (Newest)</option>
+          <option>Year (Oldest)</option>
+          <option>Rating (Highest)</option>
+          <option>Title (A-Z)</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active">Grid</button>
+          <button class="view-btn">List</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Movies Grid -->
+    <div class="movies-grid">
+      <!-- Movie Card 1 -->
+      <div class="movie-card">
+        <div class="movie-poster"></div>
+        <div class="movie-content">
+          <h3 class="movie-title">Blade Runner</h3>
+          <div class="movie-meta">
+            <span class="movie-genre">Sci-Fi</span>
+            <span class="movie-year">1982</span>
+            <span class="movie-rating">8.1 ★</span>
+          </div>
+          <p class="movie-description">
+            In a dystopian future, a blade runner must pursue and terminate replicants who stole a ship in space and have returned to Earth.
+          </p>
+          <div class="movie-actions">
+            <button class="movie-btn">Watch Now</button>
+            <button class="movie-btn favorite">❤ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Movie Card 2 -->
+      <div class="movie-card">
+        <div class="movie-poster"></div>
+        <div class="movie-content">
+          <h3 class="movie-title">The Terminator</h3>
+          <div class="movie-meta">
+            <span class="movie-genre">Action</span>
+            <span class="movie-year">1984</span>
+            <span class="movie-rating">8.0 ★</span>
+          </div>
+          <p class="movie-description">
+            A cyborg assassin sent back in time from 2029 to 1984 to kill Sarah Connor, whose unborn son will one day save humanity.
+          </p>
+          <div class="movie-actions">
+            <button class="movie-btn">Watch Now</button>
+            <button class="movie-btn favorite">❤ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Movie Card 3 -->
+      <div class="movie-card">
+        <div class="movie-poster"></div>
+        <div class="movie-content">
+          <h3 class="movie-title">Aliens</h3>
+          <div class="movie-meta">
+            <span class="movie-genre">Action</span>
+            <span class="movie-year">1986</span>
+            <span class="movie-rating">8.3 ★</span>
+          </div>
+          <p class="movie-description">
+            Decades after surviving the Nostromo incident, Ellen Ripley is sent out to re-establish contact with a terraforming colony.
+          </p>
+          <div class="movie-actions">
+            <button class="movie-btn">Watch Now</button>
+            <button class="movie-btn favorite">❤ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Movie Card 4 -->
+      <div class="movie-card">
+        <div class="movie-poster"></div>
+        <div class="movie-content">
+          <h3 class="movie-title">RoboCop</h3>
+          <div class="movie-meta">
+            <span class="movie-genre">Action</span>
+            <span class="movie-year">1987</span>
+            <span class="movie-rating">7.6 ★</span>
+          </div>
+          <p class="movie-description">
+            In a dystopian Detroit, a terminally wounded cop returns to the force as a powerful cyborg haunted by submerged memories.
+          </p>
+          <div class="movie-actions">
+            <button class="movie-btn">Watch Now</button>
+            <button class="movie-btn favorite">❤ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Movie Card 5 -->
+      <div class="movie-card">
+        <div class="movie-poster"></div>
+        <div class="movie-content">
+          <h3 class="movie-title">Total Recall</h3>
+          <div class="movie-meta">
+            <span class="movie-genre">Sci-Fi</span>
+            <span class="movie-year">1990</span>
+            <span class="movie-rating">7.5 ★</span>
+          </div>
+          <p class="movie-description">
+            When a man goes for virtual vacation memories of the planet Mars, an unexpected and harrowing series of events forces him to go to the planet for real.
+          </p>
+          <div class="movie-actions">
+            <button class="movie-btn">Watch Now</button>
+            <button class="movie-btn favorite">❤ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Movie Card 6 -->
+      <div class="movie-card">
+        <div class="movie-poster"></div>
+        <div class="movie-content">
+          <h3 class="movie-title">Predator</h3>
+          <div class="movie-meta">
+            <span class="movie-genre">Action</span>
+            <span class="movie-year">1987</span>
+            <span class="movie-rating">7.8 ★</span>
+          </div>
+          <p class="movie-description">
+            A team of commandos on a mission in a Central American jungle find themselves hunted by an extraterrestrial warrior.
+          </p>
+          <div class="movie-actions">
+            <button class="movie-btn">Watch Now</button>
+            <button class="movie-btn favorite">❤ Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="page-btn">‹</button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">4</button>
+      <button class="page-btn">›</button>
+    </div>
+  </div>
+
+  <script>
+    // Cursor Trail System
+    const cursor = document.querySelector('.custom-cursor');
+    const trailColors = ['#FFD700', '#00D9FF', '#FF1493', '#00FFAA', '#39FF14'];
+    let trailIndex = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      // Update cursor position
+      cursor.style.left = (e.clientX - 20) + 'px';
+      cursor.style.top = (e.clientY - 20) + 'px';
+
+      // Create trail effect
+      createTrail(e.clientX, e.clientY);
+    });
+
+    function createTrail(x, y) {
+      const trail = document.createElement('div');
+      trail.className = 'cursor-trail';
+      trail.style.left = (x - 4) + 'px';
+      trail.style.top = (y - 4) + 'px';
+      trail.style.backgroundColor = trailColors[trailIndex % trailColors.length];
+      
+      document.body.appendChild(trail);
+      
+      // Remove trail after animation
+      setTimeout(() => {
+        trail.remove();
+      }, 800);
+      
+      trailIndex++;
+    }
+
+    // Retro Radio Functionality
+    let radioPlaying = false;
+    const radioStations = [
+      "🎵 Synthwave FM",
+      "🎸 Retro Rock",
+      "🎹 80s Classics",
+      "🎤 New Wave",
+      "🎧 Ambient Space"
+    ];
+    let currentStation = 0;
+
+    function toggleRadio() {
+      radioPlaying = !radioPlaying;
+      const radio = document.querySelector('.retro-radio');
+      const frequency = document.querySelector('.radio-frequency');
+      
+      if (radioPlaying) {
+        radio.style.boxShadow = '0 0 40px #00FF41, 0 8px 32px rgba(0, 0, 0, 0.7)';
+        frequency.style.animation = 'frequency-scan 2s linear infinite';
+        showNotification(radioStations[currentStation] + ' 📻');
+        currentStation = (currentStation + 1) % radioStations.length;
+      } else {
+        radio.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.5)';
+        frequency.style.animation = 'frequency-scan 4s linear infinite';
+      }
+    }
+
+    // Filter System
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', function() {
+        // Remove active from siblings
+        this.parentElement.querySelectorAll('.filter-option').forEach(opt => {
+          opt.classList.remove('active');
+        });
+        // Add active to clicked option
+        this.classList.add('active');
+        
+        // Update results count with animation
+        updateResultsCount();
+        showNotification('Filter applied: ' + this.textContent);
+      });
+    });
+
+    // Sort and View Controls
+    document.querySelector('.sort-select').addEventListener('change', function() {
+      showNotification('Sorted by: ' + this.value);
+      // Add sorting animation to movie cards
+      animateMovieCards();
+    });
+
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const moviesGrid = document.querySelector('.movies-grid');
+        if (this.textContent === 'List') {
+          moviesGrid.style.gridTemplateColumns = '1fr';
+          showNotification('List view activated');
+        } else {
+          moviesGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+          showNotification('Grid view activated');
+        }
+      });
+    });
+
+    // Movie Card Interactions
+    document.querySelectorAll('.movie-card').forEach(card => {
+      card.addEventListener('click', function() {
+        const title = this.querySelector('.movie-title').textContent;
+        showNotification('Selected: ' + title);
+      });
+    });
+
+    document.querySelectorAll('.movie-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const action = this.textContent.includes('Watch') ? 'Playing' : 'Added to favorites';
+        const title = this.closest('.movie-card').querySelector('.movie-title').textContent;
+        showNotification(action + ': ' + title);
+        
+        // Button feedback animation
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+
+    // Pagination
+    document.querySelectorAll('.page-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.textContent !== '‹' && this.textContent !== '›') {
+          document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        }
+        showNotification('Page ' + this.textContent);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Utility Functions
+    function updateResultsCount() {
+      const activeFilters = document.querySelectorAll('.filter-option.active').length;
+      const count = Math.floor(Math.random() * 50) + 10; // Random count for demo
+      document.querySelector('.results-count').textContent = `Found ${count} Movies`;
+    }
+
+    function animateMovieCards() {
+      document.querySelectorAll('.movie-card').forEach((card, index) => {
+        card.style.animation = 'none';
+        setTimeout(() => {
+          card.style.animation = `fadeIn 0.5s ease-in-out ${index * 0.1}s both`;
+        }, 10);
+      });
+    }
+
+    function showNotification(message) {
+      // Remove existing notification
+      const existing = document.querySelector('.notification');
+      if (existing) existing.remove();
+      
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 30px;
+        background: linear-gradient(45deg, #00FF41, #00FFAA);
+        color: #0A0A0A;
+        padding: 15px 25px;
+        border-radius: 15px;
+        font-family: 'Orbitron', monospace;
+        font-weight: bold;
+        z-index: 10000;
+        box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+        animation: slideIn 0.3s ease-out;
+        max-width: 300px;
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-in forwards';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Search Box Enhancement
+    const searchBox = document.querySelector('.search-box');
+    searchBox.addEventListener('input', function() {
+      if (this.value.length > 2) {
+        // Simulate search suggestions
+        updateResultsCount();
+      }
+    });
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes slideIn {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); }
+        to { transform: translateX(100%); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      showNotification('🎬 Welcome to CinemaVault85!');
+      animateMovieCards();
+    });
+
+    // Dynamic background particles
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.style.cssText = `
+        position: fixed;
+        width: 2px;
+        height: 2px;
+        background: ${trailColors[Math.floor(Math.random() * trailColors.length)]};
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.7;
+      `;
+      
+      particle.style.left = Math.random() * window.innerWidth + 'px';
+      particle.style.top = '-10px';
+      
+      document.body.appendChild(particle);
+      
+      const duration = 3000 + Math.random() * 2000;
+      particle.animate([
+        { transform: 'translateY(0px)', opacity: 0.7 },
+        { transform: `translateY(${window.innerHeight + 20}px)`, opacity: 0 }
+      ], {
+        duration: duration,
+        easing: 'linear'
+      });
+      
+      setTimeout(() => particle.remove(), duration);
+    }
+
+    // Create particles periodically
+    setInterval(createParticle, 500);
+  </script>
+</body>
+</html>
